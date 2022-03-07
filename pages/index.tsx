@@ -1,11 +1,28 @@
 import { useWeb3 } from "@3rdweb/hooks";
 import type { NextPage } from "next";
 import Head from "next/head";
+import { useEffect } from "react";
 import Header from "../components/Header";
 import Hero from "../components/Hero";
+import client from "../lib/client";
 
 const Home: NextPage = () => {
   const { address, connectWallet } = useWeb3();
+
+  useEffect(() => {
+    if (!address) return;
+
+    (async () => {
+      const userDoc = {
+        _type: "users",
+        _id: address,
+        userName: "Unnamed",
+        walletAddress: address,
+      };
+
+      const result = await client.createIfNotExists(userDoc);
+    })();
+  }, [address]);
 
   return (
     <div className="h-screen w-screen overflow-x-hidden overflow-y-scroll">
