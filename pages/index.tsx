@@ -5,9 +5,21 @@ import { useEffect } from "react";
 import Header from "../components/Header";
 import Hero from "../components/Hero";
 import client from "../lib/client";
+import toast, { Toaster } from "react-hot-toast";
 
 const Home: NextPage = () => {
   const { address, connectWallet } = useWeb3();
+
+  const welcomeUser = (userName: string, toastHandler = toast) =>
+    toastHandler.success(
+      `Welcome back${userName !== "Unnamed" ? ` ${userName}` : ""}!`,
+      {
+        style: {
+          background: "#04111d",
+          color: "#fff",
+        },
+      }
+    );
 
   useEffect(() => {
     if (!address) return;
@@ -21,6 +33,8 @@ const Home: NextPage = () => {
       };
 
       const result = await client.createIfNotExists(userDoc);
+
+      welcomeUser(result.userName);
     })();
   }, [address]);
 
@@ -30,6 +44,8 @@ const Home: NextPage = () => {
         <title>Opensea Blockchain App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
+      <Toaster position="top-center" reverseOrder={false} />
 
       {address ? (
         <>
