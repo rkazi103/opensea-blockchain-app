@@ -11,6 +11,7 @@
     "format:check": "prettier --check \"{components,content,docs,pages,styles,utils}/**/*.{js,jsx,ts,tsx,css,scss,json,yaml,md}\""
   },
   "dependencies": {
+    "@3rdweb/hooks": "^1.9.2",
     "next": "latest",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
