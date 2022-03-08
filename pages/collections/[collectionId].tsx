@@ -3,7 +3,13 @@ import { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
-import { NFTMetadata, ThirdwebSDK } from "@3rdweb/sdk";
+import {
+  AuctionListing,
+  DirectListing,
+  NFTMetadata,
+  ThirdwebSDK,
+} from "@3rdweb/sdk";
+import { MARKETPLACE_ADDRESS } from "../../lib/constants";
 
 const Collection: NextPage = () => {
   const router = useRouter();
@@ -11,7 +17,9 @@ const Collection: NextPage = () => {
   const { collectionId } = router.query;
   const [collection, setCollection] = useState({});
   const [nfts, setNfts] = useState<NFTMetadata[]>([]);
-  const [listings, setListings] = useState([]);
+  const [listings, setListings] = useState<(AuctionListing | DirectListing)[]>(
+    []
+  );
 
   const sdk = useMemo(() => {
     if (provider) return new ThirdwebSDK(provider.getSigner());
@@ -19,17 +27,26 @@ const Collection: NextPage = () => {
   }, [provider]);
 
   const nftModule = useMemo(
-    () => sdk?.getNFTModule("0xdeD61eE8712fbba76164713b51FC1E37424478c3"),
+    () => sdk?.getNFTModule(collectionId as string),
     [sdk]
   );
 
+  const marketplaceModule = useMemo(() => {
+    return sdk?.getMarketplaceModule(MARKETPLACE_ADDRESS);
+  }, []);
+
   useEffect(() => {
     (async () => {
-      if (!nftModule) return;
-      const alllNfts = await nftModule.getAll();
-      setNfts(alllNfts);
+      if (nftModule) setNfts(await nftModule.getAll());
     })();
   }, [nftModule]);
+
+  useEffect(() => {
+    (async () => {
+      if (marketplaceModule)
+        setListings(await marketplaceModule.getAllListings());
+    })();
+  }, []);
 
   return (
     <div>
