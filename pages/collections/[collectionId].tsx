@@ -1,4 +1,3 @@
-import { useWeb3 } from "@3rdweb/hooks";
 import { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -11,15 +10,21 @@ import { CgWebsite } from "react-icons/cg";
 import { AiOutlineInstagram, AiOutlineTwitter } from "react-icons/ai";
 import { HiDotsVertical } from "react-icons/hi";
 import NFTCard from "../../components/NFTCard";
-import { useNfts } from "../../hooks/useNfts";
-import { useListings } from "../../hooks/useListings";
+import { useNftModule } from "../../hooks/useNftModule";
+import { AuctionListing, DirectListing, NFTMetadata } from "@3rdweb/sdk";
+import { useMarketplaceModule } from "../../hooks/useMarketplaceModule";
 
 const Collection: NextPage = () => {
   const router = useRouter();
   const { collectionId } = router.query;
   const [collection, setCollection] = useState<Collection | null>(null);
-  const nfts = useNfts(collectionId as string);
-  const listings = useListings();
+  const [nfts, setNfts] = useState<NFTMetadata[]>([]);
+  const [listings, setListings] = useState<(AuctionListing | DirectListing)[]>(
+    []
+  );
+
+  const nftModule = useNftModule();
+  const marketplaceModule = useMarketplaceModule();
 
   const fetchCollectionData = async () => {
     const query = groq`
@@ -45,6 +50,22 @@ const Collection: NextPage = () => {
   useEffect(() => {
     fetchCollectionData();
   }, [collectionId]);
+
+  useEffect(() => {
+    if (!nftModule) return;
+
+    (async () => {
+      const allNfts = await nftModule.getAll();
+      setNfts(allNfts);
+    })();
+  }, [nftModule]);
+
+  useEffect(() => {
+    (async () => {
+      if (marketplaceModule)
+        setListings(await marketplaceModule.getAllListings());
+    })();
+  }, []);
 
   console.log(nfts);
 
