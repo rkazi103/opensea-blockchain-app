@@ -1,9 +1,8 @@
 import { useWeb3 } from "@3rdweb/hooks";
 import { NFTMetadata, ThirdwebSDK } from "@3rdweb/sdk";
 import { useEffect, useMemo, useState } from "react";
-import { NFT_COLLECTION_ADDRESS } from "../lib/constants";
 
-export const useNfts = () => {
+export const useNfts = (collectionId: string) => {
   const { provider } = useWeb3();
   const [nfts, setNfts] = useState<NFTMetadata[]>([]);
 
@@ -12,10 +11,7 @@ export const useNfts = () => {
     return undefined;
   }, [provider]);
 
-  const nftModule = useMemo(
-    () => sdk?.getNFTModule(NFT_COLLECTION_ADDRESS),
-    [sdk]
-  );
+  const nftModule = useMemo(() => sdk?.getNFTModule(collectionId), [sdk]);
 
   useEffect(() => {
     (async () => {
