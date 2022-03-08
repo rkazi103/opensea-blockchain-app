@@ -11,20 +11,17 @@ import { AiOutlineInstagram, AiOutlineTwitter } from "react-icons/ai";
 import { HiDotsVertical } from "react-icons/hi";
 import NFTCard from "../../components/NFTCard";
 import { useNftModule } from "../../hooks/useNftModule";
-import { AuctionListing, DirectListing, NFTMetadata } from "@3rdweb/sdk";
+import { NFTMetadata } from "@3rdweb/sdk";
 import { useMarketplaceModule } from "../../hooks/useMarketplaceModule";
+import { useListings } from "../../hooks/useListings";
 
 const Collection: NextPage = () => {
   const router = useRouter();
   const { collectionId } = router.query;
   const [collection, setCollection] = useState<Collection | null>(null);
   const [nfts, setNfts] = useState<NFTMetadata[]>([]);
-  const [listings, setListings] = useState<(AuctionListing | DirectListing)[]>(
-    []
-  );
-
+  const listings = useListings();
   const nftModule = useNftModule();
-  const marketplaceModule = useMarketplaceModule();
 
   const fetchCollectionData = async () => {
     const query = groq`
@@ -59,13 +56,6 @@ const Collection: NextPage = () => {
       setNfts(allNfts);
     })();
   }, [nftModule]);
-
-  useEffect(() => {
-    (async () => {
-      if (marketplaceModule)
-        setListings(await marketplaceModule.getAllListings());
-    })();
-  }, []);
 
   console.log(nfts);
 
