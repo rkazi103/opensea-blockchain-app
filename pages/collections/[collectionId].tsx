@@ -9,7 +9,7 @@ import {
   NFTMetadata,
   ThirdwebSDK,
 } from "@3rdweb/sdk";
-import { MARKETPLACE_ADDRESS } from "../../lib/constants";
+import { defaultCollection, MARKETPLACE_ADDRESS } from "../../lib/constants";
 import client from "../../lib/client";
 import { groq } from "next-sanity";
 import { Collection } from "../../types/Collection";
@@ -18,7 +18,7 @@ const Collection: NextPage = () => {
   const router = useRouter();
   const { provider } = useWeb3();
   const { collectionId } = router.query;
-  const [collection, setCollection] = useState<Collection | null>(null);
+  const [collection, setCollection] = useState<Collection>(defaultCollection);
   const [nfts, setNfts] = useState<NFTMetadata[]>([]);
   const [listings, setListings] = useState<(AuctionListing | DirectListing)[]>(
     []
