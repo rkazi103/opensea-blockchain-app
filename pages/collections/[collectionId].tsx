@@ -17,6 +17,7 @@ import Header from "../../components/Header";
 import { CgWebsite } from "react-icons/cg";
 import { AiOutlineInstagram, AiOutlineTwitter } from "react-icons/ai";
 import { HiDotsVertical } from "react-icons/hi";
+import NFTCard from "../../components/NFTCard";
 
 const Collection: NextPage = () => {
   const router = useRouter();
@@ -80,10 +81,10 @@ const Collection: NextPage = () => {
     fetchCollectionData();
   }, [collectionId]);
 
-  console.log(collection);
+  console.log(nfts);
 
   return (
-    <div className="overflow-hidde">
+    <div className="overflow-hidden">
       <Header />
       <div className="flex h-[20vh] w-screen items-center justify-center overflow-hidden">
         <img
@@ -202,15 +203,15 @@ const Collection: NextPage = () => {
         </div>
       </div>
 
-      <div className="flex flex-wrap ">
-        {/* {nfts.map((nftItem, id) => (
+      <div className="flex flex-wrap">
+        {nfts.map((nftItem, id) => (
           <NFTCard
             key={id}
             nftItem={nftItem}
-            title={collection?.title}
+            title={collection?.title as string}
             listings={listings}
           />
-        ))} */}
+        ))}
       </div>
     </div>
   );
