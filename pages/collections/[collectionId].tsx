@@ -10,12 +10,15 @@ import {
   ThirdwebSDK,
 } from "@3rdweb/sdk";
 import { MARKETPLACE_ADDRESS } from "../../lib/constants";
+import client from "../../lib/client";
+import { groq } from "next-sanity";
+import { Collection } from "../../types/Collection";
 
 const Collection: NextPage = () => {
   const router = useRouter();
   const { provider } = useWeb3();
   const { collectionId } = router.query;
-  const [collection, setCollection] = useState({});
+  const [collection, setCollection] = useState<Collection | null>(null);
   const [nfts, setNfts] = useState<NFTMetadata[]>([]);
   const [listings, setListings] = useState<(AuctionListing | DirectListing)[]>(
     []
@@ -35,6 +38,27 @@ const Collection: NextPage = () => {
     return sdk?.getMarketplaceModule(MARKETPLACE_ADDRESS);
   }, []);
 
+  const fetchCollectionData = async () => {
+    const query = groq`
+      *[_type == "marketItems" && contractAddress == "0xdeD61eE8712fbba76164713b51FC1E37424478c3"] 
+        {
+          "imageUrl": profileImage.asset->url,
+          "bannerImageUrl": bannerImage.asset->url,
+          volumeTraded,
+          createdBy,
+          contractAddress,
+          "creator": createdBy->userName,
+          title,
+          floorPrice,
+          "allOwners": owners[]->,
+          description
+        }
+    `;
+
+    const collectionData: Collection[] = await client.fetch(query);
+    setCollection(collectionData[0]);
+  };
+
   useEffect(() => {
     (async () => {
       if (nftModule) setNfts(await nftModule.getAll());
@@ -47,6 +71,12 @@ const Collection: NextPage = () => {
         setListings(await marketplaceModule.getAllListings());
     })();
   }, []);
+
+  useEffect(() => {
+    fetchCollectionData();
+  }, [collectionId]);
+
+  console.log(collection);
 
   return (
     <div>
