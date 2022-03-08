@@ -26,10 +26,34 @@ const Nft: NextPage = () => {
     })();
   }, [nftModule]);
 
+  const style = {
+    wrapper: `flex flex-col items-center container-lg text-[#e5e8eb]`,
+    container: `container p-6`,
+    topContent: `flex`,
+    nftImgContainer: `flex-1 mr-4`,
+    detailsContainer: `flex-[2] ml-4`,
+  };
+
   return (
     <div>
       <Header />
-      <NFTImage selectedNft={selectedNft} />
+
+      <div className="container-lg flex flex-col items-center text-[#e5e8eb]">
+        <div className="container p-6">
+          <div className="flex">
+            <div className="mr-4 flex-1">
+              <NFTImage selectedNft={selectedNft} />
+            </div>
+
+            <div className="ml-4 flex-[2]">
+              {/* General Details */}
+              {/* Purchase */}
+            </div>
+          </div>
+
+          {/* Item Activity */}
+        </div>
+      </div>
     </div>
   );
 };
