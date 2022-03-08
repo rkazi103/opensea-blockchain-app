@@ -3,7 +3,9 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Header from "../../components/Header";
+import NFTImage from "../../components/NFTImage";
 import { useListings } from "../../hooks/useListings";
+import { useMarketplaceModule } from "../../hooks/useMarketplaceModule";
 import { useNftModule } from "../../hooks/useNftModule";
 
 const Nft: NextPage = () => {
@@ -11,6 +13,7 @@ const Nft: NextPage = () => {
   const router = useRouter();
   const listings = useListings();
   const nftModule = useNftModule();
+  const marketplaceModule = useMarketplaceModule();
 
   useEffect(() => {
     if (!nftModule) return;
@@ -26,6 +29,7 @@ const Nft: NextPage = () => {
   return (
     <div>
       <Header />
+      <NFTImage selectedNft={selectedNft} />
     </div>
   );
 };
