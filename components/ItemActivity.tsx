@@ -23,7 +23,7 @@ const ItemActivity: NextComponentType = () => {
   const [toggle, setToggle] = useState(true);
 
   return (
-    <div className="mt-8 w-full overflow-hidden rounded-xl border border-[#151b22] bg-[#303339]">
+    <div className="mt-8 w-full cursor-pointer overflow-hidden rounded-xl border border-[#151b22] bg-[#303339]">
       <div
         className="flex items-center bg-[#262b2f] px-6 py-4"
         onClick={() => setToggle(!toggle)}

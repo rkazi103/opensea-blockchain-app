@@ -6,6 +6,7 @@ import GeneralDetails from "../../components/GeneralDetails";
 import Header from "../../components/Header";
 import ItemActivity from "../../components/ItemActivity";
 import NFTImage from "../../components/NFTImage";
+import Purchase from "../../components/Purchase";
 import { useListings } from "../../hooks/useListings";
 import { useMarketplaceModule } from "../../hooks/useMarketplaceModule";
 import { useNftModule } from "../../hooks/useNftModule";
@@ -41,7 +42,12 @@ const Nft: NextPage = () => {
 
             <div className="ml-4 flex-[2]">
               <GeneralDetails selectedNft={selectedNft} />
-              {/* Purchase */}
+              <Purchase
+                isListed={router.query.isListed as string}
+                selectedNft={selectedNft}
+                listings={listings}
+                marketplaceModule={marketplaceModule}
+              />
             </div>
           </div>
 
