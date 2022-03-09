@@ -23,7 +23,7 @@ const GeneralDetails: NextComponentType<
 
         <div className="flex">
           <div className="mr-4 text-[#8a939b]">
-            Owned by <span className="text-[#2081e2]">mrlodasher</span>
+            Owned by <span className="text-[#2081e2]">mrloadsher</span>
           </div>
 
           <div className="flex items-center text-[#8a939b]">
