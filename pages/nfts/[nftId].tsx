@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import GeneralDetails from "../../components/GeneralDetails";
 import Header from "../../components/Header";
+import ItemActivity from "../../components/ItemActivity";
 import NFTImage from "../../components/NFTImage";
 import { useListings } from "../../hooks/useListings";
 import { useMarketplaceModule } from "../../hooks/useMarketplaceModule";
@@ -28,7 +29,7 @@ const Nft: NextPage = () => {
   }, [nftModule]);
 
   return (
-    <div>
+    <div className="overflow-hidden">
       <Header />
 
       <div className="container-lg flex flex-col items-center text-[#e5e8eb]">
@@ -44,7 +45,7 @@ const Nft: NextPage = () => {
             </div>
           </div>
 
-          {/* Item Activity */}
+          <ItemActivity />
         </div>
       </div>
     </div>
