@@ -2,6 +2,8 @@ import { NextComponentType } from "next";
 import { useState } from "react";
 import { CgArrowsExchangeV } from "react-icons/cg";
 import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
+import { events } from "../lib/events";
+import EventItem from "./EventItem";
 
 const style = {
   wrapper: `w-full mt-8 border border-[#151b22] rounded-xl bg-[#303339] overflow-hidden`,
@@ -55,6 +57,10 @@ const ItemActivity: NextComponentType = () => {
             <div className="flex-[3]">To</div>
             <div className="flex-[2]">Date</div>
           </div>
+
+          {events.map((event, id) => (
+            <EventItem key={id} event={event} />
+          ))}
         </div>
       )}
     </div>
