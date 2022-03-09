@@ -7,12 +7,6 @@ type NFTImageProps = {
   selectedNft: NFTMetadata | undefined;
 };
 
-const style = {
-  topBar: `bg-[#303339] p-2 rounded-t-lg border-[#151c22] border`,
-  topBarContent: `flex items-center`,
-  likesCounter: `flex-1 flex items-center justify-end`,
-};
-
 const NFTImage: NextComponentType<NextPageContext, {}, NFTImageProps> = ({
   selectedNft,
 }) => {
@@ -23,7 +17,7 @@ const NFTImage: NextComponentType<NextPageContext, {}, NFTImageProps> = ({
           <IoMdSnow />
           <div className="flex flex-1 items-center justify-end">
             <AiOutlineHeart />
-            2.3K
+            <span className="ml-2">2.3K</span>
           </div>
         </div>
       </div>
